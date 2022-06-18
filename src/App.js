@@ -37,10 +37,12 @@ class WriteGraph extends React.Component {
     return data;
   };
 
-  componentDidMount() {
+  componentWillMount() {
     let test = this.state.labels;
     // test[0]++;
-    this.intervalId = setInterval(() => {
+
+    setInterval(() => {
+      console.log("count");
       for (let i = 0; i < labels.length; i++) {
         labels[i] += 1;
         //getData.datasets[0].data[i] += 1;
@@ -87,6 +89,7 @@ Chart.register(...registerables);
 // setInterval(chglabel, 1000);
 
 export default function App() {
+  console.log("BBBBB");
   return (
     <div className="App">
       <h1>定常監視サイト</h1>
