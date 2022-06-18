@@ -5,34 +5,8 @@ import React from "react";
 // import { LineChart } from "recharts";
 const ReactDOM = require("react-dom");
 
-// let labels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
-
-// const chglabel = () => {
-//   console.log("AAA");
-//   for (let i = 0; i < labels.length; i++) {
-//     labels[i] += 1;
-//   }
-// };
 let labels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 let datas = [1, 2, 3, 5, 6, 7, 8, 9, 10, 30, 100, 200, 300];
-
-// let getData = {
-//   labels: labels,
-//   datasets: [
-//     {
-//       label: "CPU使用率",
-//       data: datas,
-//       borderColor: "rgba(60, 190, 20, 1)",
-//       backgroundColor: "rgba(0,0,0,0)"
-//     },
-//     {
-//       label: "メモリ使用率",
-//       data: [10, 20, 30, 15, 6, 98, 81, 92, 100, 30, 10, 2, 3],
-//       borderColor: "rgba(190, 60, 20, 1)",
-//       backgroundColor: "rgba(0,0,0,0)"
-//     }
-//   ]
-// };
 
 class WriteGraph extends React.Component {
   constructor(props) {
