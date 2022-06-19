@@ -6,13 +6,15 @@ import React from "react";
 const ReactDOM = require("react-dom");
 
 let labels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
-let datas = [1, 2, 3, 5, 6, 7, 8, 9, 10, 30, 100, 200, 300];
+// let datas = [1, 2, 3, 5, 6, 7, 8, 9, 10, 30, 100, 200, 300];
 
 class WriteGraph extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      now: new Date()
+      now: new Date(),
+      cpuUsage: new Array(),
+      memUsage: new Array()
     };
   }
 
@@ -22,13 +24,13 @@ class WriteGraph extends React.Component {
       datasets: [
         {
           label: "CPU使用率",
-          data: datas,
+          data: this.state.cpuUsage,
           borderColor: "rgba(60, 190, 20, 1)",
           backgroundColor: "rgba(0,0,0,0)"
         },
         {
           label: "メモリ使用率",
-          data: [10, 20, 30, 15, 6, 98, 81, 92, 100, 30, 10, 2, 3],
+          data: this.state.memUsage,
           borderColor: "rgba(190, 60, 20, 1)",
           backgroundColor: "rgba(0,0,0,0)"
         }
@@ -37,17 +39,20 @@ class WriteGraph extends React.Component {
     return data;
   };
 
-  componentWillMount() {
-    let test = this.state.labels;
-    // test[0]++;
+  async componentWillMount() {
+    this.setState({
+      cpuUsage: [60, 2, 3, 5, 6, 7, 8, 9, 10, 30, 100, 200, 300],
+      memUsage: [10, 20, 30, 15, 6, 98, 81, 92, 100, 30, 10, 2, 3]
+    });
+
+    await fetch("https://www.google.com/", {
+      method: "GET"
+    }).then((res) => console.log(res));
 
     setInterval(() => {
       console.log("count");
       for (let i = 0; i < labels.length; i++) {
         labels[i] += 1;
-        //getData.datasets[0].data[i] += 1;
-
-        //datas[i] += 10;
       }
       this.setState({
         now: new Date()
