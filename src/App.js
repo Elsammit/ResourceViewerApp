@@ -2,18 +2,15 @@ import "./styles.css";
 import { Chart, registerables } from "chart.js";
 import { Line } from "react-chartjs-2";
 import React from "react";
-import { useEffect, useState } from "react";
-// import { LineChart } from "recharts";
+import axios from "axios";
 const ReactDOM = require("react-dom");
-
-let labels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
-// let datas = [1, 2, 3, 5, 6, 7, 8, 9, 10, 30, 100, 200, 300];
 
 class WriteGraph extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       now: new Date(),
+      labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
       cpuUsage: new Array(),
       memUsage: new Array()
     };
@@ -21,7 +18,7 @@ class WriteGraph extends React.Component {
 
   getData = () => {
     let data = {
-      labels: labels,
+      labels: this.state.labels,
       datasets: [
         {
           label: "CPU使用率",
@@ -40,26 +37,39 @@ class WriteGraph extends React.Component {
     return data;
   };
 
+  getResourceUsage = (url) => {
+    axios
+      .get(url)
+      .then((res) => {
+        const items = JSON.parse(JSON.stringify(res.data));
+        console.log(items);
+        this.setState({
+          now: new Date()
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   componentWillMount() {
     this.setState({
       cpuUsage: [60, 2, 3, 5, 6, 7, 8, 9, 10, 30, 100, 200, 300],
       memUsage: [10, 20, 30, 15, 6, 98, 81, 92, 100, 30, 10, 2, 3]
     });
 
-    fetch("https://www.google.com/", {
-      method: "GET"
-    }).then((res) => console.log(res));
-
     setInterval(() => {
+      this.getResourceUsage(`https://httpbin.org/ip`);
       console.log("count");
+      let { labels } = this.state;
       for (let i = 0; i < labels.length; i++) {
         labels[i] += 1;
       }
       this.setState({
-        now: new Date()
-        // labels: test
+        now: new Date(),
+        labels: labels
       });
-    }, 1000);
+    }, 10000);
   }
 
   render() {
