@@ -62,14 +62,24 @@ class WriteGraph extends React.Component {
       this.getResourceUsage(`https://httpbin.org/ip`);
       console.log("count");
       let { labels } = this.state;
-      for (let i = 0; i < labels.length; i++) {
-        labels[i] += 1;
-      }
+      // for (let i = 0; i < labels.length; i++) {
+      //   labels[i] += 1;
+      // }
+      labels.shift();
+      const date = new Date();
+      const dateStr = `${date.getMonth()}/${date.getDate()} 
+        ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+      labels.push(dateStr);
+
+      let UsageBuf = this.state.cpuUsage;
+      UsageBuf.shift();
+      UsageBuf.push(Math.floor(Math.random() * 100) + 10);
       this.setState({
         now: new Date(),
-        labels: labels
+        labels: labels,
+        cpuUsage: UsageBuf
       });
-    }, 10000);
+    }, 3000);
   }
 
   render() {
@@ -90,12 +100,21 @@ class WriteGraph extends React.Component {
 const options = {
   animation: false,
   scales: {
-    XAxis: {
-      scaleLabel: {
+    x: {
+      // type: "timeseries",
+      title: {
         display: true,
-        labelString: "あああ",
-        fontSize: 16
-      }
+        text: "時間",
+        font: {
+          size: 20
+        }
+      },
+      ticks: {
+        font: {
+          size: 16
+        }
+      },
+      display: true
     }
   }
 };
