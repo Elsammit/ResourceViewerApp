@@ -39,7 +39,7 @@ class MainWindow extends React.Component {
         </h2>
         {this.AlertMessageWindow()}
         {this.AlertMessageWindow()}
-        <div>
+        <div clsssName="graphArea">
           <WriteGraph OverFlow={this.AlertIsValueOverFlow} />
         </div>
       </div>

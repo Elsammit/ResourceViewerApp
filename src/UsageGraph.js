@@ -89,6 +89,8 @@ class WriteGraph extends React.Component {
     const options = {
       animation: false,
       scales: {
+        width: 300,
+        height: 200,
         x: {
           // type: "timeseries",
           title: {

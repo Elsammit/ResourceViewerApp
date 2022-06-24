@@ -9,8 +9,16 @@
   --MessageBoxRadius: 15px;
 }
 
+.graphArea {
+  width: 50px;
+  height: 30px;
+}
+
 .NormalBox {
   border: solid 2px black;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 30px;
   border-radius: var(--MessageBoxRadius);
   height: var(--MessageBoxHeight);
   width: var(--MessageBoxWidth);
@@ -19,6 +27,9 @@
 .WarningBox {
   border: solid 2px #ffcc66;
   background-color: #ffff00;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 30px;
   border-radius: var(--MessageBoxRadius);
   height: var(--MessageBoxHeight);
   width: var(--MessageBoxWidth);
@@ -27,6 +38,10 @@
 .AlertBox {
   border: solid 2px #990000;
   background-color: #ff0000;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 30px;
+  color: white;
   border-radius: var(--MessageBoxRadius);
   height: var(--MessageBoxHeight);
   width: var(--MessageBoxWidth);
