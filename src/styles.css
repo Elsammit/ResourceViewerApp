@@ -17,7 +17,16 @@
 }
 
 .WarningBox {
-  border: solid 2px black;
+  border: solid 2px #ffcc66;
+  background-color: #ffff00;
+  border-radius: var(--MessageBoxRadius);
+  height: var(--MessageBoxHeight);
+  width: var(--MessageBoxWidth);
+}
+
+.AlertBox {
+  border: solid 2px #990000;
+  background-color: #ff0000;
   border-radius: var(--MessageBoxRadius);
   height: var(--MessageBoxHeight);
   width: var(--MessageBoxWidth);
