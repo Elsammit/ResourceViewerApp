@@ -78,6 +78,8 @@ class WriteGraph extends React.Component {
         memUsage: memUsage
       });
       if (cpuNum > 80 || memNum > 80) {
+        this.Alert(1);
+      } else if (cpuNum > 70 || memNum > 70) {
         this.Alert(2);
       }
     }, 3000);

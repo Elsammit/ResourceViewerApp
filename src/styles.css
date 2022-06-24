@@ -2,3 +2,23 @@
   font-family: sans-serif;
   text-align: center;
 }
+
+:root {
+  --MessageBoxHeight: 50px;
+  --MessageBoxWidth: 600px;
+  --MessageBoxRadius: 15px;
+}
+
+.NormalBox {
+  border: solid 2px black;
+  border-radius: var(--MessageBoxRadius);
+  height: var(--MessageBoxHeight);
+  width: var(--MessageBoxWidth);
+}
+
+.WarningBox {
+  border: solid 2px black;
+  border-radius: var(--MessageBoxRadius);
+  height: var(--MessageBoxHeight);
+  width: var(--MessageBoxWidth);
+}

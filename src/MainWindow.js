@@ -9,9 +9,11 @@ class MainWindow extends React.Component {
   }
 
   AlertIsValueOverFlow = (num) => {
+    var WarningMsg = <p className="NormalBox">Memory OK!!</p>;
     if (num === 1) {
-      console.log("OverFlow !!!!!!!!!!!!!!");
-    } else {
+      //console.log("OverFlow !!!!!!!!!!!!!!");
+      WarningMsg = <p className="NormalBox">Memory OK!!</p>;
+    } else if (num == 2) {
       console.log("Warning !!!!!!!!!!!!!!");
     }
   };
@@ -25,6 +27,8 @@ class MainWindow extends React.Component {
           <br />
           もし異常状態であれば通知も行います？
         </h2>
+        <p className="NormalBox"></p>
+        <p className="NormalBox"></p>
         <div>
           <WriteGraph OverFlow={this.AlertIsValueOverFlow} />
         </div>
