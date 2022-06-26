@@ -37,56 +37,130 @@ class WriteGraph extends React.Component {
     return data;
   };
 
-  getResourceUsage = (url) => {
+  SetCpuUsageToGrapth = (respCpu) =>{
+    console.log("======================");
+    console.log(respCpu.cpuUsage);
+    let { labels } = this.state;
+
+    labels.shift();
+    const date = new Date();
+    const dateStr = `${date.getMonth()}/${date.getDate()} 
+      ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    labels.push(dateStr);
+
+    let { cpuUsage } = this.state;
+    const cpuNum = respCpu.cpuUsage;
+    cpuUsage.shift();
+    cpuUsage.push(cpuNum);
+
+    // const memNum = Math.random() * 100;
+    // memUsage.shift();
+    // memUsage.push(memNum);
+    this.setState({
+      now: new Date(),
+      labels: labels,
+      cpuUsage: cpuUsage,
+      // memUsage: memUsage
+    });
+    if (cpuNum > 80) {
+      this.Alert(1);
+    } else if (cpuNum > 70) {
+      this.Alert(2);
+    }
+  }
+
+  SetMemoryUsageToGrapth = (respMemory) =>{
+    console.log("======================");
+    console.log(respMemory.memUsage);
+    let { labels } = this.state;
+
+    labels.shift();
+    const date = new Date();
+    const dateStr = `${date.getMonth()}/${date.getDate()} 
+      ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    labels.push(dateStr);
+
+    let { memUsage } = this.state;
+    // const cpuNum = respCpu.cpuUsage;
+    // cpuUsage.shift();
+    // cpuUsage.push(cpuNum);
+
+    const memNum = respMemory.memUsage;
+    memUsage.shift();
+    memUsage.push(memNum);
+    this.setState({
+      now: new Date(),
+      labels: labels,
+      // cpuUsage: cpuUsage,
+      memUsage: memUsage
+    });
+    // if (cpuNum > 80 || memNum > 80) {
+    //   this.Alert(1);
+    // } else if (cpuNum > 70 || memNum > 70) {
+    //   this.Alert(2);
+    // }
+  }
+  getResourceUsage = (url, state) => {
     axios
       .get(url)
       .then((res) => {
         const items = JSON.parse(JSON.stringify(res.data));
         console.log(items);
+        if(state === 1){
+          this.SetCpuUsageToGrapth(items);
+        }else{
+          this.SetMemoryUsageToGrapth(items);
+        }
         this.setState({
           now: new Date()
         });
+        return items;
       })
       .catch((error) => {
         console.error(error);
+        return null;
       });
   };
 
   componentWillMount() {
     setInterval(() => {
-      this.getResourceUsage(`https://httpbin.org/ip`);
-      let { labels } = this.state;
+      this.getResourceUsage('http://*************************', 1);
+      this.getResourceUsage('http://*************************', 2);
+      // console.log(respCpu);
+      // let { labels } = this.state;
 
-      labels.shift();
-      const date = new Date();
-      const dateStr = `${date.getMonth()}/${date.getDate()} 
-        ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-      labels.push(dateStr);
+      // labels.shift();
+      // const date = new Date();
+      // const dateStr = `${date.getMonth()}/${date.getDate()} 
+      //   ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+      // labels.push(dateStr);
 
-      let { cpuUsage, memUsage } = this.state;
-      const cpuNum = Math.random() * 100;
-      cpuUsage.shift();
-      cpuUsage.push(cpuNum);
+      // let { cpuUsage, memUsage } = this.state;
+      // const cpuNum = Math.random() * 100;
+      // cpuUsage.shift();
+      // cpuUsage.push(cpuNum);
 
-      const memNum = Math.random() * 100;
-      memUsage.shift();
-      memUsage.push(memNum);
-      this.setState({
-        now: new Date(),
-        labels: labels,
-        cpuUsage: cpuUsage,
-        memUsage: memUsage
-      });
-      if (cpuNum > 80 || memNum > 80) {
-        this.Alert(1);
-      } else if (cpuNum > 70 || memNum > 70) {
-        this.Alert(2);
-      }
+      // const memNum = Math.random() * 100;
+      // memUsage.shift();
+      // memUsage.push(memNum);
+      // this.setState({
+      //   now: new Date(),
+      //   labels: labels,
+      //   cpuUsage: cpuUsage,
+      //   memUsage: memUsage
+      // });
+      // if (cpuNum > 80 || memNum > 80) {
+      //   this.Alert(1);
+      // } else if (cpuNum > 70 || memNum > 70) {
+      //   this.Alert(2);
+      // }
     }, 3000);
   }
 
   getOptions = () => {
     const options = {
+      maintainAspectRatio: false,
+      responsive: false,
       animation: false,
       scales: {
         width: 300,
@@ -134,10 +208,10 @@ class WriteGraph extends React.Component {
       <div>
         {this.state.now.toString()}
         <Line
-          height={100}
-          width={200}
           data={this.getData()}
           options={this.getOptions()}
+          width={500}
+          height={500}
         />
       </div>
     );
