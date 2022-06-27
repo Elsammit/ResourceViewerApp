@@ -7,7 +7,8 @@ import axios from "axios";
 class WriteGraph extends React.Component {
   constructor(props) {
     super(props);
-    this.Alert = this.props.OverFlow;
+    this.MemAlert = this.props.MemOverFlow;
+    this.CpuAlert = this.props.CpuOverFlow;
     this.state = {
       now: new Date(),
       labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
@@ -53,19 +54,15 @@ class WriteGraph extends React.Component {
     cpuUsage.shift();
     cpuUsage.push(cpuNum);
 
-    // const memNum = Math.random() * 100;
-    // memUsage.shift();
-    // memUsage.push(memNum);
     this.setState({
       now: new Date(),
       labels: labels,
       cpuUsage: cpuUsage,
-      // memUsage: memUsage
     });
     if (cpuNum > 80) {
-      this.Alert(1);
-    } else if (cpuNum > 70) {
-      this.Alert(2);
+      this.CpuAlert(1);
+    } else if (cpuNum > 60) {
+      this.CpuAlert(2);
     }
   }
 
@@ -81,9 +78,6 @@ class WriteGraph extends React.Component {
     labels.push(dateStr);
 
     let { memUsage } = this.state;
-    // const cpuNum = respCpu.cpuUsage;
-    // cpuUsage.shift();
-    // cpuUsage.push(cpuNum);
 
     const memNum = respMemory.memUsage;
     memUsage.shift();
@@ -91,14 +85,13 @@ class WriteGraph extends React.Component {
     this.setState({
       now: new Date(),
       labels: labels,
-      // cpuUsage: cpuUsage,
       memUsage: memUsage
     });
-    // if (cpuNum > 80 || memNum > 80) {
-    //   this.Alert(1);
-    // } else if (cpuNum > 70 || memNum > 70) {
-    //   this.Alert(2);
-    // }
+    if (memNum > 80) {
+      this.MemAlert(1);
+    } else if (memNum > 60) {
+      this.MemAlert(2);
+    }
   }
   getResourceUsage = (url, state) => {
     axios
@@ -122,38 +115,11 @@ class WriteGraph extends React.Component {
       });
   };
 
+
   componentWillMount() {
     setInterval(() => {
-      this.getResourceUsage('http://*************************', 1);
-      this.getResourceUsage('http://*************************', 2);
-      // console.log(respCpu);
-      // let { labels } = this.state;
-
-      // labels.shift();
-      // const date = new Date();
-      // const dateStr = `${date.getMonth()}/${date.getDate()} 
-      //   ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-      // labels.push(dateStr);
-
-      // let { cpuUsage, memUsage } = this.state;
-      // const cpuNum = Math.random() * 100;
-      // cpuUsage.shift();
-      // cpuUsage.push(cpuNum);
-
-      // const memNum = Math.random() * 100;
-      // memUsage.shift();
-      // memUsage.push(memNum);
-      // this.setState({
-      //   now: new Date(),
-      //   labels: labels,
-      //   cpuUsage: cpuUsage,
-      //   memUsage: memUsage
-      // });
-      // if (cpuNum > 80 || memNum > 80) {
-      //   this.Alert(1);
-      // } else if (cpuNum > 70 || memNum > 70) {
-      //   this.Alert(2);
-      // }
+      this.getResourceUsage('http://************************************', 1);
+      this.getResourceUsage('http://************************************', 2);
     }, 3000);
   }
 
@@ -166,7 +132,6 @@ class WriteGraph extends React.Component {
         width: 300,
         height: 200,
         x: {
-          // type: "timeseries",
           title: {
             display: true,
             text: "時間",
@@ -210,7 +175,7 @@ class WriteGraph extends React.Component {
         <Line
           data={this.getData()}
           options={this.getOptions()}
-          width={500}
+          width={800}
           height={500}
         />
       </div>

@@ -6,24 +6,39 @@ class MainWindow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      AlertNum: 0
+      MemAlert: 0,
+      CpuAlert:0
     };
   }
 
-  AlertIsValueOverFlow = (num) => {
+  AlertMemIsOverFlow = (num) => {
     this.setState({
-      AlertNum: num
+      MemAlert: num
     });
   };
 
-  AlertMessageWindow = () => {
-    let WarningMsg = <p className="NormalBox">Memory OK!!</p>;
-    const { AlertNum } = this.state;
-    if (AlertNum === 1) {
-      //console.log("OverFlow !!!!!!!!!!!!!!");
-      WarningMsg = <p className="AlertBox">Memory OK!!</p>;
-    } else if (AlertNum == 2) {
-      WarningMsg = <p className="WarningBox">Memory OK!!</p>;
+  AlertCpuIsOverFlow = (num) => {
+    this.setState({
+      CpuAlert: num
+    });
+  };
+
+  AlertMemMessageWindow = () => {
+    let WarningMsg = <p className="NormalBox">Memory Usage is OK!!</p>;
+    if (this.state.MemAlert === 1) {
+      WarningMsg = <p className="AlertBox">Memory Usage is Alert!!</p>;
+    } else if (this.state.MemAlert == 2) {
+      WarningMsg = <p className="WarningBox">Memory Usage is Warning!!</p>;
+    }
+    return WarningMsg;
+  };
+
+  AlertCpuMessageWindow = () => {
+    let WarningMsg = <p className="NormalBox">CPU Usage is OK!!</p>;
+    if (this.state.CpuAlert === 1) {
+      WarningMsg = <p className="AlertBox">CPU Usage is Alert!!</p>;
+    } else if (this.state.CpuAlert == 2) {
+      WarningMsg = <p className="WarningBox">CPU Usage is Warning!!</p>;
     }
     return WarningMsg;
   };
@@ -37,10 +52,13 @@ class MainWindow extends React.Component {
           <br />
           もし異常状態であれば通知も行います？
         </h2>
-        {this.AlertMessageWindow()}
-        {this.AlertMessageWindow()}
+        {this.AlertCpuMessageWindow()}
+        {this.AlertMemMessageWindow()}
         <div clsssName="graphArea">
-          <WriteGraph OverFlow={this.AlertIsValueOverFlow} />
+          <WriteGraph 
+            MemOverFlow={this.AlertMemIsOverFlow} 
+            CpuOverFlow={this.AlertCpuIsOverFlow}
+          />
         </div>
       </div>
     );
