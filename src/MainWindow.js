@@ -1,13 +1,15 @@
 import "./styles.css";
 import React from "react";
 import WriteGraph from "./UsageGraph";
+import InputNetworkPath from "./InputNetworkPath";
 
 class MainWindow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       MemAlert: 0,
-      CpuAlert:0
+      CpuAlert:0,
+      IpAddr:Text
     };
   }
 
@@ -22,6 +24,12 @@ class MainWindow extends React.Component {
       CpuAlert: num
     });
   };
+
+  SetIpAddr = (ipaddr) => {
+    this.setState({
+      IpAddr: ipaddr
+    });
+  }
 
   AlertMemMessageWindow = () => {
     let WarningMsg = <p className="NormalBox">Memory Usage is OK!!</p>;
@@ -48,10 +56,12 @@ class MainWindow extends React.Component {
       <div>
         <h1>定常監視サイト</h1>
         <h2>
-          サーバーのリソースを表示します!
+          サーバーのリソースを表示します
           <br />
           もし異常状態であれば通知も行います？
         </h2>
+        <InputNetworkPath SetIpAddr={this.SetIpAddr}/>
+        {this.state.IpAddr}
         {this.AlertCpuMessageWindow()}
         {this.AlertMemMessageWindow()}
         <div clsssName="graphArea">
