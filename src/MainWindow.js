@@ -48,7 +48,7 @@ class MainWindow extends React.Component {
       <div>
         <h1>定常監視サイト</h1>
         <h2>
-          サーバーのリソースを表示します。
+          サーバーのリソースを表示します!
           <br />
           もし異常状態であれば通知も行います？
         </h2>
