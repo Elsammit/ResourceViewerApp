@@ -44,3 +44,7 @@
   height: var(--MessageBoxHeight);
   width: var(--MessageBoxWidth);
 }
+
+.IpButtonClass{
+  margin-left: 20px;
+}

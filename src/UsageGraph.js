@@ -13,7 +13,8 @@ class WriteGraph extends React.Component {
       now: new Date(),
       labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
       cpuUsage: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      memUsage: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      memUsage: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      intervalId: NaN
     };
   }
 
@@ -93,13 +94,14 @@ class WriteGraph extends React.Component {
       this.MemAlert(2);
     }
   }
-  getResourceUsage = (url, state) => {
+  getResourceUsage = (urlBase, state) => {
+    const url = `${urlBase}?type=${state}`;
     axios
       .get(url)
       .then((res) => {
         const items = JSON.parse(JSON.stringify(res.data));
         console.log(items);
-        if(state === 1){
+        if(state === "Cpu"){
           this.SetCpuUsageToGrapth(items);
         }else{
           this.SetMemoryUsageToGrapth(items);
@@ -111,16 +113,27 @@ class WriteGraph extends React.Component {
       })
       .catch((error) => {
         console.error(error);
+        alert("Could not draw graph !! Check IP Address");
         return null;
       });
   };
 
 
-  componentWillMount() {
-    setInterval(() => {
-      this.getResourceUsage('http://************************************', 1);
-      this.getResourceUsage('http://************************************', 2);
+
+  StartResourceView(ipAddr) {
+    console.log(ipAddr);
+    if(this.state.intervalId != NaN){
+      console.log(this.state.intervalId);
+      clearInterval(this.state.intervalId);
+    }
+    const AccessPath = `http://${ipAddr}:8080/Usage`;
+    const intervalId  = setInterval(() => {
+      this.getResourceUsage(AccessPath, "Cpu");
+      this.getResourceUsage(AccessPath, "Memory");
     }, 3000);
+    this.setState({
+      intervalId: intervalId
+    });
   }
 
   getOptions = () => {
@@ -129,8 +142,6 @@ class WriteGraph extends React.Component {
       responsive: false,
       animation: false,
       scales: {
-        width: 300,
-        height: 200,
         x: {
           title: {
             display: true,

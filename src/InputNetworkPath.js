@@ -11,11 +11,16 @@ class InputNetworkPath extends React.Component {
     };
   }
 
-  test = () =>{
+  IpAddrClickEvent = () =>{
       console.log("test");
-
       const ipaddr = this.state.IpAddr;
-      this.SetSubIpAddr(ipaddr);
+      
+      const ipCheck = ipaddr.split('.');
+      if(ipCheck.length === 4){
+        this.SetSubIpAddr(ipaddr);
+      }else{
+        alert("IP Address format error !!!!!!");
+      }
   }
 
   render() {
@@ -25,8 +30,7 @@ class InputNetworkPath extends React.Component {
         Server IP:
         <input type="text" 
           onChange={(e) => this.setState({IpAddr:e.target.value})}></input>
-        <button onClick={this.test}>clickHere</button>
-          <div>{ipAddr}</div>
+        <button className="IpButtonClass" onClick={this.IpAddrClickEvent}>clickHere</button>
       </div>
     );
   }

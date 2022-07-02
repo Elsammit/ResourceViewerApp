@@ -6,10 +6,11 @@ import InputNetworkPath from "./InputNetworkPath";
 class MainWindow extends React.Component {
   constructor(props) {
     super(props);
+    this.UsageGraphRef = React.createRef();
+    this.StartUsageGraph = this.StartUsageGraph.bind(this);
     this.state = {
       MemAlert: 0,
       CpuAlert:0,
-      IpAddr:Text
     };
   }
 
@@ -26,9 +27,12 @@ class MainWindow extends React.Component {
   };
 
   SetIpAddr = (ipaddr) => {
-    this.setState({
-      IpAddr: ipaddr
-    });
+    this.StartUsageGraph(ipaddr);
+  }
+
+  StartUsageGraph = (ipaddr) =>{
+    console.log("call StartUsageGraph");
+    this.UsageGraphRef.current.StartResourceView(ipaddr);
   }
 
   AlertMemMessageWindow = () => {
@@ -58,14 +62,14 @@ class MainWindow extends React.Component {
         <h2>
           サーバーのリソースを表示します
           <br />
-          もし異常状態であれば通知も行います？
+          もし異常状態であれば通知も行います
         </h2>
         <InputNetworkPath SetIpAddr={this.SetIpAddr}/>
-        {this.state.IpAddr}
         {this.AlertCpuMessageWindow()}
         {this.AlertMemMessageWindow()}
         <div clsssName="graphArea">
           <WriteGraph 
+            ref = {this.UsageGraphRef}
             MemOverFlow={this.AlertMemIsOverFlow} 
             CpuOverFlow={this.AlertCpuIsOverFlow}
           />
