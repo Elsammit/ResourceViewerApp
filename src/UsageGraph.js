@@ -14,7 +14,8 @@ class WriteGraph extends React.Component {
       labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
       cpuUsage: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       memUsage: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      intervalId: NaN
+      intervalId: NaN,
+      State:0,
     };
   }
 
@@ -96,6 +97,7 @@ class WriteGraph extends React.Component {
   }
   getResourceUsage = (urlBase, state) => {
     const url = `${urlBase}?type=${state}`;
+    console.log("get Resource Usage");
     axios
       .get(url)
       .then((res) => {
@@ -113,12 +115,11 @@ class WriteGraph extends React.Component {
       })
       .catch((error) => {
         console.error(error);
+        this.StopResourceView();
         alert("Could not draw graph !! Check IP Address");
         return null;
       });
   };
-
-
 
   StartResourceView(ipAddr) {
     console.log(ipAddr);
@@ -134,6 +135,13 @@ class WriteGraph extends React.Component {
     this.setState({
       intervalId: intervalId
     });
+  }
+
+  StopResourceView(){
+    if(this.state.intervalId != NaN){
+      console.log(this.state.intervalId);
+      clearInterval(this.state.intervalId);
+    }
   }
 
   getOptions = () => {

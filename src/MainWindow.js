@@ -35,6 +35,8 @@ class MainWindow extends React.Component {
     this.UsageGraphRef.current.StartResourceView(ipaddr);
   }
 
+
+
   AlertMemMessageWindow = () => {
     let WarningMsg = <p className="NormalBox">Memory Usage is OK!!</p>;
     if (this.state.MemAlert === 1) {
